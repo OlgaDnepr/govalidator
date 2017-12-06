@@ -2522,6 +2522,9 @@ func TestValidateStruct(t *testing.T) {
 type testByteArray [8]byte
 type testByteMap map[byte]byte
 type testByteSlice []byte
+type testStringStringMap map[string]string
+type testStringIntMap map[string]int
+type testStringBoolMap map[string]bool
 
 func TestRequired(t *testing.T) {
 
@@ -2605,6 +2608,30 @@ func TestRequired(t *testing.T) {
 				TestByteSlice testByteSlice `valid:"required"`
 			}{},
 			false,
+		},
+		{
+			struct {
+				TestStringStringMap testStringStringMap `valid:"required"`
+			}{
+				testStringStringMap{"test": "test"},
+			},
+			true,
+		},
+		{
+			struct {
+				TestIntMap testStringIntMap `valid:"required"`
+			}{
+				testStringIntMap{"test": 42},
+			},
+			true,
+		},
+		{
+			struct {
+				TestIntMap testStringBoolMap `valid:"required"`
+			}{
+				testStringBoolMap{"test": true},
+			},
+			true,
 		},
 	}
 	for _, test := range tests {
