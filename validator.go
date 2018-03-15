@@ -829,6 +829,10 @@ func typeCheck(v reflect.Value, t reflect.StructField, o reflect.Value, options 
 		return false, customTypeErrors
 	}
 
+	if isEmptyValue(v) {
+		return checkRequired(v, t, options)
+	}
+
 	if isRootType {
 		// Ensure that we've checked the value by all specified validators before report that the value is valid
 		defer func() {
